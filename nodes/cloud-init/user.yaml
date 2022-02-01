@@ -1,0 +1,17 @@
+#cloud-config
+
+mounts:
+- [ swap, null ]
+
+users:
+  - name: tom
+    groups: [sudo]
+    shell: "/bin/bash"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_import_id:
+      - gh:tomruttle
+    lock_passwd: true
+
+runcmd:
+  - swapoff --all
+  - sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab

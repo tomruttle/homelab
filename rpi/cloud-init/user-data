@@ -1,0 +1,35 @@
+#cloud-config
+
+hostname: rpi
+
+# ethernets:
+#   eth0:
+#     addresses:
+#       - 192.168.11.2/24
+#     gateway4: 192.168.11.1
+#     nameservers:
+#       addresses:
+#         - 127.0.0.1
+#         - 192.168.11.1
+#         - 1.1.1.1
+#         - 1.0.0.1
+#     optional: true
+
+chpasswd:
+  expire: true
+  list:
+  - ubuntu:ubuntu
+
+ssh_pwauth: false
+
+users:
+  - name: tom
+    groups: [sudo]
+    shell: "/bin/bash"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_import_id:
+      - gh:tomruttle
+    lock_passwd: true
+
+mounts:
+  - [sda, /opt/data]
