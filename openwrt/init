@@ -1,8 +1,8 @@
-opkg instsall quagga quagga-bgpd quagga-libzebra quagga-zebra
+opkg install frr frr-bgpd frr-libfrr frr-staticd frr-vtysh frr-watchfrr frr-zebra
 
 ### commands
 
-/etc/init.d/quagga restart
+/etc/init.d/frr restart
 
 ### debugging
 
@@ -12,12 +12,11 @@ tcpdump -n -i any tcp port 179
 
 from openwrt:
 
-nc localhost 2605
+logread
 
+vtysh
 > show ip bgp summary
 > show ip bgp
 > show ip bgp neighbors
-
-nc localhost 2601
-
 > show ip route
+> show ip route bgp

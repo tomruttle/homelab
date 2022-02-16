@@ -1,0 +1,25 @@
+* domain: ruttle.net (default)
+* 3 fabrics:
+    * 192.168.10.0/24 (int)
+        * No DHCP
+        * Disallow Managed allocation, Active discovery, Proxy access, DNS resolution
+        * Gateway IP: 192.168.10.1
+        * DNS: 192.168.10.1
+    * 192.168.11.0/24 (dmz)
+        * No DHCP
+        * Disallow Managed allocation, Active discovery, Proxy access, DNS resolution
+        * Gateway IP: 192.168.11.1
+        * DNS: 192.168.11.1
+    * 192.168.13.0/24 (maas)
+        * MAAS-Provided
+        * Allow Managed allocation, Active discovery, Proxy access, DNS resolution
+        * Gateway IP: empty
+        * DNS: empty
+* per node:
+    * set hostname
+    * Power: manual
+    * on Physical interface:
+        * IP mode: Static assign
+        * IP address: 192.168.13.xx
+    * on USB interface:
+        * IP mode: DHCP

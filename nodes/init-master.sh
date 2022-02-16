@@ -10,15 +10,15 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 # install cni
 helm repo add cilium https://helm.cilium.io/
 
-helm install cilium cilium/cilium --version 1.11.0 \
+helm install cilium cilium/cilium --version 1.11.1 \
     --namespace kube-system \
     --set kubeProxyReplacement=strict \
     --set k8sServiceHost=192.168.11.100 \
     --set k8sServicePort=6443 \
-    --set hubble.relay.enabled=true \
-    --set hubble.ui.enabled=true \
     --set bgp.enabled=true \
     --set bgp.announce.loadbalancerIP=true
+    # --set hubble.relay.enabled=true \
+    # --set hubble.ui.enabled=true
 
 # add non-admin user
 openssl genrsa -out tom.key 4096

@@ -13,4 +13,4 @@ data:
       - name: default
         protocol: bgp
         addresses:
-          - 192.168.11.192/26
+          - 192.168.11.128/25
