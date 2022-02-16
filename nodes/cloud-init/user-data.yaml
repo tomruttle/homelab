@@ -1,0 +1,128 @@
+## template: jinja
+#cloud-config
+
+mounts:
+  - [swap, null]
+
+users:
+  - name: tom
+    groups: [sudo]
+    shell: "/bin/bash"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_import_id:
+      - gh:tomruttle
+    lock_passwd: true
+
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    kubernetes.list:
+      source: deb [arch=amd64] https://apt.kubernetes.io kubernetes-xenial main
+      keyid: 7F92E05B31093BEF5A3C2D38FEEA9169307EA071
+
+package_upgrade: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - software-properties-common
+  - bridge-utils
+  - lsb-release
+  - ethtool
+  - socat
+  - ebtables
+  - conntrack
+  - libnetfilter-conntrack3
+  - keepalived
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - kubelet
+  - kubeadm
+  - kubectl
+  - kubernetes-cni
+  - cri-tools
+
+write_files:
+  - path: /etc/modules-load.d/k8s.conf
+    content: |
+      br_netfilter
+      ip_tables
+      overlay
+
+  - path: /etc/modprobe.d/usbcore.conf
+    content: |
+      options usbcore use_both_schemes=0
+      options usbcore autosuspend=-1
+ 
+  - path: /etc/sysctl.d/k8s.conf
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "100m"
+        },
+        "storage-driver": "overlay2"
+      }
+
+  - path: /etc/keepalived/keepalived.conf
+    content: |
+      global_defs {
+        router_id KubernetesVIP
+        enable_script_security
+        script_user root
+      }
+
+      vrrp_script APIServerProbe {
+          script "/usr/bin/curl -k https://127.0.0.1:6443"
+          interval 3
+          timeout 9
+          fall 2
+          rise 2
+      }
+
+      vrrp_instance APIServerVIP {
+          virtual_router_id 51
+
+      {% if v1.local_hostname == 'katana' %}
+          state MASTER
+          priority 100
+          interface enx00e04c0814ec
+          mcast_src_ip 192.168.13.10
+      {% elif v1.local_hostname == 'pilot' %}
+          state BACKUP
+          priority 99
+          interface enx00e04c0813a5
+          mcast_src_ip 192.168.13.11
+      {% elif v1.local_hostname == 'sabre' %}
+          state BACKUP
+          priority 98
+          interface enx00e04c082584
+          mcast_src_ip 192.168.13.12
+      {% endif %}
+
+          virtual_ipaddress {
+              192.168.11.100/24
+          }
+
+          # track_script {
+          #     APIServerProbe
+          # }
+      }
+
+runcmd:
+  - sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
+  - sudo apt-mark hold kubelet kubeadm kubectl
+  - sudo apt-get autoremove
+  - sudo reboot

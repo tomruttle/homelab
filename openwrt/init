@@ -1,0 +1,23 @@
+opkg instsall quagga quagga-bgpd quagga-libzebra quagga-zebra
+
+### commands
+
+/etc/init.d/quagga restart
+
+### debugging
+
+from cilium-agent:
+
+tcpdump -n -i any tcp port 179
+
+from openwrt:
+
+nc localhost 2605
+
+> show ip bgp summary
+> show ip bgp
+> show ip bgp neighbors
+
+nc localhost 2601
+
+> show ip route

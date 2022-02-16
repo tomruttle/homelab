@@ -1,26 +1,41 @@
-#!/bin/bash
+# on master
+kubeadm init --config=/tmp/config.yml --upload-certs
 
-KUBE_TOKEN=$(kubeadm token generate)
+# on backup
+kubeadm join ...
 
-kubeadm init --config ./kubeadm-config-init.yaml \
-  --token $KUBE_TOKEN \
-  --pod-network-cidr 10.244.0.0/16 \
-  --apiserver-advertise-address=192.168.11.141
+# on machine
+kubectl taint nodes --all node-role.kubernetes.io/master-
 
-# Get joining hash:
-# openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
-
+# install cni
 helm repo add cilium https://helm.cilium.io/
 
 helm install cilium cilium/cilium --version 1.11.0 \
     --namespace kube-system \
     --set kubeProxyReplacement=strict \
-    --set k8sServiceHost=192.168.11.141 \
+    --set k8sServiceHost=192.168.11.100 \
     --set k8sServicePort=6443 \
     --set hubble.relay.enabled=true \
-    --set hubble.ui.enabled=true
+    --set hubble.ui.enabled=true \
+    --set bgp.enabled=true \
+    --set bgp.announce.loadbalancerIP=true
 
 # add non-admin user
+openssl genrsa -out tom.key 4096
+openssl req -new -key tom.key -out tom.csr
+cat tom.csr | base64 | tr -d '\n'
+
+# add {{ base64_encoded_csr }} to tom-csr.yml
+
+kubectl apply -f nodes/manifests/tom-csr.yml
+kubectl certificate approve tom
+kubectl get csr tom -o jsonpath='{.status.certificate}'| base64 -d > tom.crt
+
+kubectl apply -f nodes/manifests/tom-crb.yml
+
+kubectl config set-credentials tom --client-key=tom.key --client-certificate=tom.crt --embed-certs=true
+kubectl config set-context tom --cluster=kubernetes --user=tom
+
 # kubeadm kubeconfig user ...
 
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
