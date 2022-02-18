@@ -12,13 +12,31 @@ helm repo add cilium https://helm.cilium.io/
 
 helm install cilium cilium/cilium --version 1.11.1 \
     --namespace kube-system \
+    --set tunnel=disabled \
+    --set autoDirectNodeRoutes=true \
+    --set hostServices.hostNamespaceOnly=true \
+    --set kubeProxyReplacement=strict \
+    --set loadBalancer.mode=hybrid \
     --set kubeProxyReplacement=strict \
     --set k8sServiceHost=192.168.11.100 \
     --set k8sServicePort=6443 \
     --set bgp.enabled=true \
-    --set bgp.announce.loadbalancerIP=true
-    # --set hubble.relay.enabled=true \
-    # --set hubble.ui.enabled=true
+    --set bgp.announce.loadbalancerIP=true \
+    --set hubble.relay.enabled=true \
+    --set hubble.ui.enabled=true
+
+cilium install --version -service-mesh:v1.11.0-beta.1 \
+    --kube-proxy-replacement=strict \
+    --ipv4-native-routing-cidr=10.0.0.0/9 \
+    --config tunnel=disabled \
+    --config auto-direct-node-routes=true \
+    --config bpf-lb-sock-hostns-only=true \
+    --config node-port-mode=hybrid \
+    --config enable-envoy-config=true \
+    --config bgp-announce-lb-ip=true \
+    --config k8s-api-server=https://192.168.11.100:6443
+
+cilium hubble enable --ui
 
 # add non-admin user
 openssl genrsa -out tom.key 4096

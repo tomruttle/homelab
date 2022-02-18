@@ -121,8 +121,10 @@ write_files:
           # }
       }
 
+power_state:
+  mode: reboot
+
 runcmd:
   - sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
   - sudo apt-mark hold kubelet kubeadm kubectl
   - sudo apt-get autoremove
-  - sudo reboot
