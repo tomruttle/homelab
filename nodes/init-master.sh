@@ -1,3 +1,7 @@
+brew install octant
+brew install cilium-cli
+brew install fluxcd/tap/flux
+
 # on master
 kubeadm init --config=/tmp/config.yml --upload-certs
 
@@ -37,6 +41,15 @@ cilium install --version -service-mesh:v1.11.0-beta.1 \
     --config k8s-api-server=https://192.168.11.100:6443
 
 cilium hubble enable --ui
+
+GITHUB_TOKEN=${GITHUB_TOKEN} flux bootstrap github \
+  --server=https://192.168.11.100:6443 \
+  --repository=homelab \
+  --owner=${GITHUB_USER} \
+  --path=cluster \
+  --personal \
+  --cluster-domain=ruttle.net \
+  --branch=master
 
 # add non-admin user
 openssl genrsa -out tom.key 4096
