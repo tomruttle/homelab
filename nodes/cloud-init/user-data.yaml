@@ -1,4 +1,3 @@
-## template: jinja
 #cloud-config
 
 mounts:
@@ -38,7 +37,6 @@ packages:
   - ebtables
   - conntrack
   - libnetfilter-conntrack3
-  - keepalived
   - docker-ce
   - docker-ce-cli
   - containerd.io
@@ -54,11 +52,6 @@ write_files:
       br_netfilter
       ip_tables
       overlay
-
-  - path: /etc/modprobe.d/usbcore.conf
-    content: |
-      options usbcore use_both_schemes=0
-      options usbcore autosuspend=-1
  
   - path: /etc/sysctl.d/k8s.conf
     content: |
@@ -74,51 +67,6 @@ write_files:
           "max-size": "100m"
         },
         "storage-driver": "overlay2"
-      }
-
-  - path: /etc/keepalived/keepalived.conf
-    content: |
-      global_defs {
-        router_id KubernetesVIP
-        enable_script_security
-        script_user root
-      }
-
-      vrrp_script APIServerProbe {
-          script "/usr/bin/curl -k https://127.0.0.1:6443"
-          interval 3
-          timeout 9
-          fall 2
-          rise 2
-      }
-
-      vrrp_instance APIServerVIP {
-          virtual_router_id 51
-
-      {% if v1.local_hostname == 'katana' %}
-          state MASTER
-          priority 100
-          interface enx00e04c0814ec
-          mcast_src_ip 192.168.13.10
-      {% elif v1.local_hostname == 'pilot' %}
-          state BACKUP
-          priority 99
-          interface enx00e04c0813a5
-          mcast_src_ip 192.168.13.11
-      {% elif v1.local_hostname == 'sabre' %}
-          state BACKUP
-          priority 98
-          interface enx00e04c082584
-          mcast_src_ip 192.168.13.12
-      {% endif %}
-
-          virtual_ipaddress {
-              192.168.11.100/24
-          }
-
-          # track_script {
-          #     APIServerProbe
-          # }
       }
 
 power_state:

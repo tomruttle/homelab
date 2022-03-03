@@ -15,7 +15,7 @@ kind: ClusterConfiguration
 controlPlaneEndpoint: 192.168.11.100
 kubernetesVersion: 1.23.0
 networking:
-  dnsDomain: ruttle.net
+  serviceSubnet: "10.96.0.0/16"
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1

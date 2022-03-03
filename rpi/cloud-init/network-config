@@ -1,0 +1,30 @@
+version: 2
+renderer: networkd
+ethernets:
+  eth0:
+    match:
+      macaddress: e4:5f:01:7b:73:85
+    dhcp4: no
+    dhcp6: no
+    optional: true
+bridges:
+  br-int:
+    dhcp4: yes
+    dhcp6: no
+    interfaces: [vlan10]
+  br-maas:
+    dhcp4: no
+    dhcp6: no
+    interfaces: [vlan13]
+    addresses: [192.168.13.1/24]
+vlans:
+  vlan10:
+    id: 10
+    link: eth0
+    dhcp4: no
+    dhcp6: no
+  vlan13:
+    id: 13
+    link: eth0
+    dhcp4: no
+    dhcp6: no

@@ -5,13 +5,45 @@ hostname: rpi
 ssh_pwauth: false
 
 users:
-  - name: tom
-    groups: [sudo]
-    shell: "/bin/bash"
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    ssh_import_id:
-      - gh:tomruttle
-    lock_passwd: true
+- name: tom
+  groups: [sudo]
+  shell: "/bin/bash"
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  ssh_import_id:
+  - gh:tomruttle
+  lock_passwd: true
 
 mounts:
-  - [sda, /opt/data]
+- [sda, /opt/data]
+
+apt:
+  sources:
+    maas.list:
+      source: deb [arch=arm64] http://ppa.launchpad.net/maas/3.1/ubuntu focal main
+      keyid: 3AB6DCF1F234E78DAA9C104204E7FDC5684D4A1C
+
+package_upgrade: true
+
+packages:
+- nfs-kernel-server
+- vlan
+- bridge-utils
+
+write_files:
+- path: /boot/firmware/usercfg.txt
+  content: | 
+    gpu_mem=16
+  append: true
+- path: /etc/exports
+  content: | 
+    /opt/data *(rw,sync,no_root_squash,no_wdelay,no_subtree_check)
+  append: true
+- path: /etc/modules-load.d/vlan.conf
+  content: |
+    8021q
+    br_netfilter
+    ip_tables
+    overlay
+
+power_state:
+  mode: reboot
