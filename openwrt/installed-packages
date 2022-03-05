@@ -1,0 +1,11 @@
+avahi-dbus-daemon
+frr
+frr-bgpd
+frr-libfrr
+frr-staticd
+frr-vtysh
+frr-watchfrr
+frr-zebra
+luci-app-mwan3
+mwan3
+pppoe-discovery

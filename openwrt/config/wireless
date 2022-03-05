@@ -11,8 +11,8 @@ config wifi-iface 'default_radio0'
 	option device 'radio0'
 	option mode 'ap'
 	option encryption 'psk2'
-	option key {{ PASSPHRASE }}
-	option ssid {{ SSID }}
+	option key 'Hello Devices :)'
+	option ssid '[txa] devices'
 	option network 'iot'
 
 config wifi-device 'radio1'
@@ -28,6 +28,6 @@ config wifi-iface 'default_radio1'
 	option device 'radio1'
 	option mode 'ap'
 	option encryption 'psk2'
-	option key {{ PASSPHRASE }}
-	option ssid {{ SSID }}
+	option key 'Hello Devices :)'
+	option ssid '[txa] devices'
 	option network 'iot'

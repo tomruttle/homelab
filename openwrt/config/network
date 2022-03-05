@@ -13,7 +13,14 @@ config device
 
 config interface 'wan'
 	option device 'eth1'
-	option proto 'dhcp'
+	option proto 'pppoe'
+	option username {{ username }}
+	option password {{ password }}
+	option ipv6 'auto'
+	option metric '1'
+	option peerdns '0'
+	list dns '1.1.1.1'
+	list dns '1.0.0.1'
 
 config interface 'wan6'
 	option device 'eth1'
@@ -21,6 +28,9 @@ config interface 'wan6'
 	option auto '0'
 	option reqaddress 'try'
 	option reqprefix 'auto'
+	option peerdns '0'
+	list dns '2606:4700:4700::1111'
+	list dns '2606:4700:4700::1001'
 
 config device
 	option name 'eth0'
@@ -30,6 +40,11 @@ config device
 	option name 'br-lan'
 	option type 'bridge'
 	list ports 'eth0'
+
+config device
+	option name 'br-wanb'
+	option type 'bridge'
+	list ports 'eth0.3'
 
 config device
 	option name 'br-int'
@@ -46,12 +61,20 @@ config device
 	option type 'bridge'
 	list ports 'eth0.12'
 
+config interface 'wanb'
+	option device 'br-wanb'
+	option proto 'dhcp'
+	option metric '2'
+	option peerdns '0'
+	list dns '1.1.1.1'
+	list dns '1.0.0.1'
+
 config interface 'lan'
 	option device 'br-lan'
 	option proto 'static'
-	option ipaddr '192.168.1.1'
 	option netmask '255.255.255.0'
 	option ip6assign '60'
+	option ipaddr '192.168.1.2'
 
 config interface 'int'
 	option proto 'static'
@@ -84,21 +107,28 @@ config switch_vlan
 
 config switch_vlan
 	option device 'switch0'
+	option vlan '3'
+	option vid '3'
+	option description '5G'
+	option ports '0t 4'
+
+config switch_vlan
+	option device 'switch0'
 	option vlan '10'
 	option vid '10'
 	option description 'INT'
-	option ports '0t 4 3t'
+	option ports '0t 3t 2t'
 
 config switch_vlan
 	option device 'switch0'
 	option vlan '11'
 	option vid '11'
 	option description 'DMZ'
-	option ports '0t 3t'
+	option ports '0t 2t'
 
 config switch_vlan
 	option device 'switch0'
 	option vlan '12'
 	option vid '12'
 	option description 'IOT'
-	option ports '0t 2'
+	option ports '0t 3t 2t'
