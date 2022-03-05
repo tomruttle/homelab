@@ -5,7 +5,7 @@ nodeRegistration:
     feature-gates: "MixedProtocolLBService=true"
     node-ip: 192.168.13.12
   taints: null
-controlplane:
+controlPlane:
   localAPIEndpoint:
     advertiseAddress: 192.168.13.12
   certificateKey: {{ certificate-key }}
