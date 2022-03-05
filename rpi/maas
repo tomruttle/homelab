@@ -21,5 +21,6 @@
     * on Physical interface:
         * IP mode: Static assign
         * IP address: 192.168.13.xx
-    * on USB interface:
-        * IP mode: DHCP
+        * add vlan interface:
+            * Subnet: 192.168.11.0/24
+            * IP mode: DHCP
