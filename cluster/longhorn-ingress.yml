@@ -11,6 +11,7 @@ metadata:
     # custom max body size for file uploading like backing image uploading
     nginx.ingress.kubernetes.io/proxy-body-size: 10000m
 spec:
+  ingressClassName: cilium
   rules:
   - http:
       paths:
