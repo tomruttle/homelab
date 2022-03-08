@@ -62,6 +62,9 @@ spec:
         - "https://dns.digitale-gesellschaft.ch/dns-query"
     metrics:
       enabled: true
+      serviceMonitor:
+        labels:
+          release: kube-prometheus-stack
     service:
       dns:
         enabled: true
