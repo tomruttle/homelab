@@ -66,6 +66,8 @@ spec:
         labels:
           release: kube-prometheus-stack
     service:
+      main:
+        type: LoadBalancer
       dns:
         enabled: true
         ports:
