@@ -13,7 +13,8 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - http:
+  - host: "longhorn.ruttle.net"
+    http:
       paths:
       - pathType: Prefix
         path: "/"
