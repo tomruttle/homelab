@@ -6,7 +6,6 @@ skipPhases:
   - addon/kube-proxy
 nodeRegistration:
   kubeletExtraArgs:
-    feature-gates: "MixedProtocolLBService=true"
     node-ip: 192.168.13.10
   taints: null
 ---
@@ -16,6 +15,9 @@ controlPlaneEndpoint: 192.168.11.100
 kubernetesVersion: 1.23.0
 networking:
   serviceSubnet: "10.96.0.0/16"
+apiServer:
+  extraArgs:
+    feature-gates: "MixedProtocolLBService=true"
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
