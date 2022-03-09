@@ -9,6 +9,9 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress:
-          class:  cilium
+    - dns01:
+        cloudflare:
+          email: tom@tomruttle.com
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token
