@@ -13,5 +13,5 @@ spec:
         cloudflare:
           email: tom@tomruttle.com
           apiTokenSecretRef:
-            name: cloudflare-api-token-secret
+            name: cloudflare-api-token-letsencrypt-prod
             key: api-token
