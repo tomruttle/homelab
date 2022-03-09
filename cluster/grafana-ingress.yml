@@ -2,12 +2,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: grafana-ingress-staging
+  name: grafana-ingress
   namespace: monitoring
 spec:
-  secretName: grafana-ingress-staging-certificate
+  secretName: grafana-ingress-certificate
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt
   dnsNames:
   - grafana.int.ruttle.net
 ---
@@ -17,7 +17,7 @@ metadata:
   name: grafana-ingress
   namespace: monitoring
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: cilium
   rules:
@@ -34,4 +34,4 @@ spec:
   tls:
   - hosts:
     - grafana.int.ruttle.net
-    secretName: grafana-ingress-staging-certificate
+    secretName: grafana-ingress-certificate
