@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - host: "longhorn.int.ruttle.net"
+  - host: "longhorn.k8s.ruttle.net"
     http:
       paths:
       - pathType: Prefix
@@ -26,5 +26,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - longhorn.int.ruttle.net
+    - longhorn.k8s.ruttle.net
     secretName: wildcard-staging-certificate

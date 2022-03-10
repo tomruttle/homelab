@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - host: "grafana.int.ruttle.net"
+  - host: "grafana.k8s.ruttle.net"
     http:
       paths:
       - pathType: Prefix
@@ -20,5 +20,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - grafana.int.ruttle.net
+    - grafana.k8s.ruttle.net
     secretName: wildcard-staging-certificate
