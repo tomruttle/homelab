@@ -10,4 +10,3 @@ spec:
   commonName: '*.ruttle.net'
   dnsNames:
   - '*.ruttle.net'
-  - ruttle.net
