@@ -4,7 +4,7 @@ metadata:
   name: longhorn-ingress
   namespace: longhorn-system
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt
   #   nginx.ingress.kubernetes.io/auth-type: basic
   #   nginx.ingress.kubernetes.io/ssl-redirect: 'false'
   #   nginx.ingress.kubernetes.io/auth-secret: basic-auth
@@ -27,4 +27,4 @@ spec:
   tls:
   - hosts:
     - longhorn.k8s.ruttle.net
-    secretName: wildcard-staging-certificate
+    secretName: wildcard-certificate

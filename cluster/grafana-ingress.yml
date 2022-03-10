@@ -4,7 +4,7 @@ metadata:
   name: grafana-ingress
   namespace: monitoring
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: cilium
   rules:
@@ -21,4 +21,4 @@ spec:
   tls:
   - hosts:
     - grafana.k8s.ruttle.net
-    secretName: wildcard-staging-certificate
+    secretName: wildcard-certificate
