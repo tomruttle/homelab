@@ -7,6 +7,6 @@ spec:
   secretName: wildcard-staging-certificate
   issuerRef:
     name: letsencrypt-staging
-  commonName: '*.ruttle.net'
   dnsNames:
   - '*.ruttle.net'
+  - ruttle.net
