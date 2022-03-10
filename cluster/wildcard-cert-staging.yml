@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-staging
+  namespace: monitoring
+spec:
+  secretName: wildcard-staging-certificate
+  issuerRef:
+    name: letsencrypt-staging
+  dnsNames:
+  - '*.ruttle.net'
+  - ruttle.net

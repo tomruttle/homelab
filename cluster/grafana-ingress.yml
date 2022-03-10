@@ -1,16 +1,3 @@
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: grafana-ingress
-  namespace: monitoring
-spec:
-  secretName: grafana-ingress-certificate
-  issuerRef:
-    name: letsencrypt
-  dnsNames:
-  - grafana.int.ruttle.net
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -34,4 +21,4 @@ spec:
   tls:
   - hosts:
     - grafana.int.ruttle.net
-    secretName: grafana-ingress-certificate
+    secretName: wildcard-staging-certificate

@@ -1,16 +1,3 @@
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: longhorn-ingress
-  namespace: longhorn-system
-spec:
-  secretName: longhorn-ingress-certificate
-  issuerRef:
-    name: letsencrypt
-  dnsNames:
-  - longhorn.int.ruttle.net
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -40,4 +27,4 @@ spec:
   tls:
   - hosts:
     - longhorn.int.ruttle.net
-    secretName: longhorn-ingress-certificate
+    secretName: wildcard-staging-certificate
