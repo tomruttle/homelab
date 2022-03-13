@@ -86,3 +86,16 @@ GITHUB_TOKEN=${GITHUB_TOKEN} flux bootstrap github \
 # kubeadm kubeconfig user ...
 
 brew install octant
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+type: Opaque
+stringData:
+  api-token:
+
+# https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/#api-tokens
+kubectl create secret generic cloudflare-api-token-secret \
+  --namespace=cert-manager
+  --from-literal=api-token=${CLOUDFLARE_TOKEN}
