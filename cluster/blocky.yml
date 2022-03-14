@@ -65,6 +65,8 @@ spec:
       serviceMonitor:
         labels:
           release: kube-prometheus-stack
+    controller:
+      replicas: 2
     service:
       main:
         type: LoadBalancer
