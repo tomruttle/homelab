@@ -42,6 +42,7 @@ spec:
         clientGroupsBlock:
           default:
           - "ads"
+          Annelots-Air: []
         refreshPeriod: 0
       bootstrapDns: "1.1.1.1"
       prometheus:
