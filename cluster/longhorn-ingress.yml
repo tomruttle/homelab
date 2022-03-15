@@ -5,12 +5,6 @@ metadata:
   namespace: longhorn-system
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-  #   nginx.ingress.kubernetes.io/auth-type: basic
-  #   nginx.ingress.kubernetes.io/ssl-redirect: 'false'
-  #   nginx.ingress.kubernetes.io/auth-secret: basic-auth
-  #   nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required '
-  #   # custom max body size for file uploading like backing image uploading
-  #   nginx.ingress.kubernetes.io/proxy-body-size: 10000m
 spec:
   ingressClassName: cilium
   rules:
@@ -27,4 +21,4 @@ spec:
   tls:
   - hosts:
     - longhorn.k8s.ruttle.net
-    secretName: wildcard-certificate
+    secretName: longhorn-ingress-certificate
