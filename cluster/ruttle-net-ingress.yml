@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: ruttle-net-ingress
   namespace: default
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: cilium
   defaultBackend:
@@ -12,8 +10,3 @@ spec:
       name: nginx-test
       port:
         number: 80    
-  tls:
-  - hosts:
-    - www.ruttle.net
-    - ruttle.net
-    secretName: wildcard-certificate
