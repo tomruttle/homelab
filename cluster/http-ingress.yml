@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: cilium
+  rules:
+  - host: "www.ruttle.net"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-test
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - www.ruttle.net
+    secretName: http-certificate

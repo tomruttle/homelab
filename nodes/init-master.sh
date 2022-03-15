@@ -59,6 +59,8 @@ kubectl apply -f nodes/manifests/bgp-config.yml
 
 brew install cilium-cli
 
+# on each node, ensure to `rm /sys/fs/bpf/tc/globals/*` before trying to install cilium
+
 cilium install --version -service-mesh:v1.11.0-beta.1 \
     --kube-proxy-replacement=strict \
     --ipv4-native-routing-cidr=10.0.0.0/9 \
@@ -68,7 +70,8 @@ cilium install --version -service-mesh:v1.11.0-beta.1 \
     --config node-port-mode=hybrid \
     --config enable-envoy-config=true \
     --config bgp-announce-lb-ip=true \
-    --config k8s-api-server=https://192.168.11.100:6443
+    --config k8s-api-server=https://192.168.11.100:6443 \
+    --config debug=true
 
 cilium hubble enable --ui
 
