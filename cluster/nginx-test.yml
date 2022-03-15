@@ -27,6 +27,7 @@ metadata:
   labels:
     app: nginx-test
   name: nginx-test
+  namespace: default
 spec:
   type: ClusterIP
   selector:
