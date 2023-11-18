@@ -124,7 +124,7 @@ config switch_vlan
 	option vlan '11'
 	option vid '11'
 	option description 'DMZ'
-	option ports '0t 2t'
+	option ports '0t 3t'
 
 config switch_vlan
 	option device 'switch0'
