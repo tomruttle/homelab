@@ -19,7 +19,7 @@ mounts:
 apt:
   sources:
     maas.list:
-      source: deb [arch=arm64] http://ppa.launchpad.net/maas/3.1/ubuntu focal main
+      source: deb [arch=arm64] https://ppa.launchpadcontent.net/maas/3.4/ubuntu jammy main
       keyid: 3AB6DCF1F234E78DAA9C104204E7FDC5684D4A1C
 
 package_upgrade: true
